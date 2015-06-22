@@ -1,0 +1,16 @@
+{
+  "name": "Robot",
+  "version": "1.0.0",
+  "description": "Butler that lives in your website, can be instructed and executes your commands",
+  "main": "src/WebButler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juanjo Diaz",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-connect": "^2.2.0",
+    "gulp-jshint": "^1.11.0"
+  }
+}
