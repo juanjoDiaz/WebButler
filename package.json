@@ -1,5 +1,5 @@
 {
-  "name": "Robot",
+  "name": "WebButler",
   "version": "1.0.0",
   "description": "Butler that lives in your website, can be instructed and executes your commands",
   "main": "src/WebButler.js",
