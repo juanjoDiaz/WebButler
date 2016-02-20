@@ -1,15 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+  <title>Web butler</title>
+  <link rel="stylesheet" href="style.css"></style>
 </head>
 <body>
-<div>
-	<h1>Voice test</h1>
-	<p id="text"></p>
-	<button onclick="butler.call();">Call Alfred</button>
-</div>
-<script type="text/javascript" src="src/WebButler.js"></script>
-<script type="text/javascript" src="test.js"></script>
+  <h1>Web butler</h1>
+  <div id="left">
+    <img id="butler-image" src="img/butler.gif" alt="butler">
+    <div class= "form-element">
+      <select id="voices"></select>
+    </div>
+    <div class= "form-element">
+      <label for="volume">Volume:</label>
+      <input type="range" name="volume" id="volume" min="0" max="1" step="0.1"/>
+    </div>
+    <div class= "form-element">
+      <label for="rate">Rate:</label>
+      <input type="range" name="rate" id="rate" min="0" max="10" step="0.1"/>
+    </div>
+    <div class= "form-element">
+      <label for="pitch">Pitch:</label>
+      <input type="range"  name="pitch" id="pitch" min="0" max="2" step="0.1"/>
+    </div>
+    <button onclick="butler.call();">Call Alfred</button>
+  </div>
+  <div id="right">
+    <div id="dialog"></div>
+    <h1 id="processing"><span>.</span><span>.</span><span>.</span></h1>
+  </div>
+
+  <div id="bottom">
+    <div class= "form-element">
+      <label for="command">Command:</label>
+      <input type="text" name="command" id="command"/>
+    </div>
+    <div class= "form-element">
+      <label for="response">Response:</label>
+      <input type="text" name="response" id="response"/>
+    </div>
+    <button id="instruct">Instruct Alfred</button>
+  </div>
+  
+  <script type="text/javascript" src="src/WebButler.js"></script>
+  <script type="text/javascript" src="test.js"></script>
 </body>
 </html>

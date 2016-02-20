@@ -5,7 +5,7 @@
  *
  * License: The MIT License (MIT)
  *
- * Copyright 2011-2013 Juanjo Diaz
+ * Copyright 2011-2016 Juanjo Diaz
  *
  * Permission is hereby granted,y free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -26,15 +26,15 @@
  * IN THE SOFTWARE.
  *
  */
-var WebButler = (function() {
-  function WebButler(name, lang) {
-    'use strict';
+'use strict';
 
-    this.name = name || 'Alfred';
+class WebButler {
+    constructor(name, lang) {
+     this.name = name || 'Alfred';
     this.lang = lang || 'en';
     this.instructions = [];
 
-    if (!speechSynthesis || !SpeechSynthesisUtterance) {
+    if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
       this.isMute = true;
     } else {
       this.isMute = false;
@@ -42,58 +42,65 @@ var WebButler = (function() {
       this.u.rate = 1.0;
     }
 
-    if (!webkitSpeechRecognition) {
+    if (!window.SpeechRecognition) {
+      window.SpeechRecognition = window.webkitSpeechRecognition;
+    }
+    if (!SpeechRecognition) {
       this.isDeaf = true;
-      delete this[call];
-      delete this[dismiss];
+      delete this.call;
+      delete this.dismiss;
+      return;
     } else {
       this.isDeaf = false;
-      /*jshint newcap: false */
-      this.listener = new webkitSpeechRecognition();
-      /*jshint newcap: true */
+      this.listener = new SpeechRecognition();
     }
 
-    this.listener.onresult = function(event) {
-      if (event.results.length > 0) {
-        var result = event.results[event.results.length - 1];
+    this.listener.addEventListener('result', e => {
+      if (e.results.length > 0) {
+        let result = e.results[e.results.length - 1];
         if (result.isFinal) {
           this.obey(result[0].transcript);
         }
       }
-    }.bind(this);
+    });
 
-    this.listener.onend = function(event) {
+    this.listener.addEventListener('start', e => {
+      this.available = true;
+      document.getElementById('butler-image').src = 'img/butler_awake.gif';
+    });
+
+    this.listener.addEventListener('end', e => {
       this.available = false;
-    }.bind(this);
+      document.getElementById('butler-image').src = 'img/butler.gif';
+    });
   }
 
-  WebButler.prototype.speak = function(text, lang) {
+  speak(text, lang) {
     if (this.mute) {
-      console.log(this.name + ' said: ' + text);
+      return console.log(this.name + ' said: ' + text);
     }
     this.u.lang = lang || this.lang;
     this.u.text = text;
-    window.speechSynthesis.speak(this.u);
-  };
+    speechSynthesis.speak(this.u);
+  }
 
-  WebButler.prototype.call = function(lang) {
+  call(lang) {
     if (this.available) {
       return;
     }
-    this.available = true;
     this.listener.lang = lang || this.lang;
     this.listener.start();
-  };
+  }
 
-  WebButler.prototype.dismiss = function() {
+  dismiss() {
     if (!this.available) {
       return;
     }
     this.available = false;
     this.listener.stop();
-  };
+  }
 
-  WebButler.prototype.instruct = function(cmd, func, name) {
+ instruct(cmd, func, name) {
     if (typeof cmd === 'string') {
       cmd = new RegExp('(^' + cmd + ')(.*)?', 'i');
     } else if ((cmd instanceof RegExp)) {
@@ -111,9 +118,9 @@ var WebButler = (function() {
       cmd: cmd,
       response: func
     });
-  };
+  }
 
-  WebButler.prototype.obey = function(cmd) {
+  obey(cmd) {
     if (this.debug) {
       console.debug('Trying to execute', cmd);
     }
@@ -124,17 +131,17 @@ var WebButler = (function() {
     }
     cmd = cmd.substring(this.name.length).trim();
 
-    var instruction,
+    let instruction,
       details,
       response;
-    for (var i = 0; i < this.instructions.length; i++) {
+    for (let i = 0; i < this.instructions.length; i++) {
       instruction = this.instructions[i];
       details = instruction.cmd.exec(cmd);
       if (details) {
         details.shift();
         details.shift();
         if (this.debug) {
-          console.debug(this.name + 'is executing ', instruction.name, ' with params: ', JSON.stringify(details));
+          console.debug(this.name + ' is executing ', instruction.name, ' with params: ', JSON.stringify(details));
         }
         try {
           return instruction.response.apply(this, details);
@@ -145,7 +152,5 @@ var WebButler = (function() {
       }
     }
     this.speak('I did not understand sir.');
-  };
-
-  return WebButler;
-})();
+  }
+}

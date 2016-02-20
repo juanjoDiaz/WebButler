@@ -1,0 +1,140 @@
+h1 {
+  text-align: center;
+}
+
+#left {
+  float: left;
+  width: 219px;
+  max-width: 33%;
+}
+  #left img, #left button {
+  width: 100%;
+  }
+#right {
+  width: 100%;
+  max-width: 66%;
+  height: 500px;
+  overflow: auto;
+}
+
+#left .form-element {
+  display: block;
+  position: relative;
+}
+
+#left .form-element > input {
+  right: 0;
+  position: absolute;
+}
+
+.note {
+    margin: 0 50px;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+.bubble {
+  position: relative;
+  padding: 15px;
+  color: #000;
+  background: #f3961c;
+  border-radius: 10px;
+}
+.bubble:after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50px;
+  border-width: 15px 15px 0;
+  border-style: solid;
+  border-color: #f3961c transparent;
+  display: block;
+  width: 0;
+}
+
+.bubble.left {
+  margin-left: 50px;
+  margin-right: 100px;
+}
+.bubble.left:after {
+  top: 16px;
+  left: -50px;
+  bottom: auto;
+  border-width: 10px 50px 10px 0;
+  border-color: transparent #f3961c;
+}
+
+.bubble.right {
+  margin-left: 100px;
+  margin-right: 50px;
+  background: #65A2BF;
+}
+.bubble.right:after {
+  top: 16px;
+  right: -50px;
+  bottom: auto;
+  left: auto;
+  border-width: 10px 0 10px 50px;
+  border-color: transparent #65A2BF;
+}
+
+#processing {
+  display: none;
+}
+
+#processing > span:nth-child(1) {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.0s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.0s;
+}
+
+#processing > span:nth-child(2) {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.2s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.2s;
+}
+
+#processing > span:nth-child(3) {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.3s;
+ animation: dot 1.3s infinite;
+ animation-delay: 0.3s;
+}
+
+@-webkit-keyframes dot {
+  0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes dot {
+    0% { opacity: 0; }
+   50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#bottom {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+#bottom label {
+  display: inline-block;
+  width: 5rem;
+}
+
+#bottom input {
+  width: 80%;
+}
+
+.form-element select {
+  width: 100%;
+}
